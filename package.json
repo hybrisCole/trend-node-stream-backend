@@ -1,0 +1,26 @@
+{
+  "name": "trend-node-stream-backend",
+  "version": "1.0.0",
+  "description": "Backend para la charla de Programacion Funcional Reactiva Aplicada a JavaScipt para Drupal Costa Rica 2016",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hybrisCole/trend-node-stream-backend.git"
+  },
+  "keywords": [
+    "drupal",
+    "costa",
+    "rica",
+    "twitter",
+    "stream"
+  ],
+  "author": "Alberto Cole",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hybrisCole/trend-node-stream-backend/issues"
+  },
+  "homepage": "https://github.com/hybrisCole/trend-node-stream-backend#readme"
+}
