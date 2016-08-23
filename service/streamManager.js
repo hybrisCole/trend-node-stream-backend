@@ -1,38 +1,46 @@
 const _ = require('lodash');
 const Rx = require('rx');
+const pubnubClient = require('./pubnubClient');
 
-module.exports = (stream) => {
-  const source = Rx.Observable.fromEvent(
-  stream,
-  'data',
-  (event) => {
-    const hashtags = _.chain(event.entities.hashtags).map('text').join(' ').value();
-    const twitterText = `@${event.user.name} : ${event.text} ${hashtags}`;
-    return twitterText;
-  });
+module.exports = (topVolumeTrendsQuery) =>
+  (stream) => {
+    const source = Rx.Observable.fromEvent(
+    stream,
+    'data',
+    (event) => {
+      const hashtags = _.chain(event.entities.hashtags).map('text').join(' ').value();
+      const twitterText = `@${event.user.name} : ${event.text} ${hashtags}`;
+      return twitterText;
+    })
+    .buffer(() => { return Rx.Observable.timer(5000); })
+    .scan((accumulator, currentValue) => {
+      const newAccumulator = _.clone(accumulator);
+      // current value will always be an array bc of the buffer op.
+      _.each(currentValue, (twitterText) => {
+        newAccumulator.forEach((value, key) => {
+          if (_.includes(twitterText, key)) {
+            newAccumulator.set(key, value + 1);
+          }
+        });
+      });
+      return newAccumulator;
+    }, new Map(_.chain(topVolumeTrendsQuery).split(',').map((trend) => {
+      return [trend, 0];
+    }).value()));
 
-  source.subscribe(
-  (twitterText) => {
-    console.log(twitterText);
-  },
-  (err) => {
-    console.log('Error: ' + err);
-  },
-  () => {
-    console.log('Completed');
-  });
-  /* let i = 0;
-  const streamData = [];
-  stream.on('data', (event) => {
-    i++;
-    const hashtags = _.chain(event.entities.hashtags).map('text').join(' ').value();
-    const twitterText = `@${event.user.name} : ${event.text} ${hashtags} ${i}`;
-    streamData.push(twitterText);
-  });
-
-  stream.on('error', (streamError) => {
-    // eslint-disable-next-line
-    console.log(streamError);
-    throw streamError;
-  });*/
-};
+    source.subscribe(
+    (trendCountData) => {
+      pubnubClient.publish({
+        channel : 'trendnode:count',
+        message : Array.from(trendCountData),
+      });
+    },
+    (err) => {
+      // eslint-disable-next-line
+      console.log('Error: ' + err);
+    },
+    () => {
+      // eslint-disable-next-line
+      console.log('Completed');
+    });
+  };

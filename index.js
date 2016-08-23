@@ -20,9 +20,8 @@ const getVolumeTrendsQuery = (trends) =>
 
 client.get('trends/place', {id : WOEID_USA},  (error, trendsPlaceData) => {
   if (error) {
-    // console.log(err);
     throw error;
   }
   const topVolumeTrendsQuery = getVolumeTrendsQuery(trendsPlaceData[0].trends);
-  client.stream('statuses/filter', {track : topVolumeTrendsQuery}, streamManager);
+  client.stream('statuses/filter', {track : topVolumeTrendsQuery}, streamManager(topVolumeTrendsQuery));
 });
