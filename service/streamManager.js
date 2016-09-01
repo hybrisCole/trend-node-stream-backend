@@ -12,7 +12,7 @@ module.exports = (topVolumeTrendsQuery) =>
       const twitterText = `@${event.user.name} : ${event.text} ${hashtags}`;
       return twitterText;
     })
-    .buffer(() => { return Rx.Observable.timer(5000); })
+    .buffer(() => { return Rx.Observable.timer(1000); })
     .scan((accumulator, currentValue) => {
       const newAccumulator = _.clone(accumulator);
       // current value will always be an array bc of the buffer op.
@@ -30,6 +30,8 @@ module.exports = (topVolumeTrendsQuery) =>
 
     source.subscribe(
     (trendCountData) => {
+      // eslint-disable-next-line
+      console.log(`sending trend count... ${Array.from(trendCountData)}`);
       pubnubClient.publish({
         channel : 'trendnode:count',
         message : Array.from(trendCountData),

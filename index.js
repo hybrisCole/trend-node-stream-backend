@@ -13,7 +13,7 @@ const getVolumeTrendsQuery = (trends) =>
       };
     })
     .orderBy('tweet_volume')
-    .take(5)
+    .take(8)
     .map('name')
     .join(',')
     .value();
