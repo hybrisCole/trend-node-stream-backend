@@ -10,4 +10,4 @@ Esta proyecto recibe datos del Twitter API y los modifica de una manera funciona
 - Clonar este proyecto
 - Ejecutar **npm install** desde la línea de comandos, en el mismo path de **package.json**
 - Ejecutar **npm run start** desde la línea de comandos, en el mismo path de **package.json**
-- Para revisar el code linting, puede ejecutar **npm run lint**, o usar (Atom)[https://atom.io/] con el paquete *linter-eslint*
+- Para revisar el code linting, puede ejecutar **npm run lint**, o usar [Atom](https://atom.io/) con el paquete *linter-eslint*

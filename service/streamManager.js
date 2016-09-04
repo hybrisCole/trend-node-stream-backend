@@ -8,9 +8,10 @@ module.exports = (topVolumeTrendsQuery) =>
     stream,
     'data',
     (event) => {
-      const hashtags = _.chain(event.entities.hashtags).map('text').join(' ').value();
-      const twitterText = `@${event.user.name} : ${event.text} ${hashtags}`;
-      return twitterText;
+      const hashtags = (event.entities) ? _.chain(event.entities.hashtags).map('text').join(' ').value() : '';
+      const user = (event.user) ? `@${event.user.name}` : '';
+      const text = (event.text) ? event.text : '';
+      return `${user} : ${text} ${hashtags}`;
     })
     .buffer(() => { return Rx.Observable.timer(1000); })
     .scan((accumulator, currentValue) => {
