@@ -1,6 +1,6 @@
 # Drupal CR 2016 - Programación Funcional Reactiva Aplicada a JavaScript
 ## Twitter Node Stream - Backend
-Esta proyecto recibe datos del Twitter API y los modifica de una manera funcional reactiva y los envía mediante PubNub al (frontEnd)[https://github.com/hybrisCole/trend-node-stream-frontend].
+Esta proyecto recibe datos del Twitter API y los modifica de una manera funcional reactiva y los envía mediante PubNub al [frontEnd](https://github.com/hybrisCole/trend-node-stream-frontend).
 ###Pasos para ejecutar este proyecto:
 - Instalar [node 6.5.0](https://github.com/creationix/nvm)
 - Crear una aplicación en [PubNub](https://www.pubnub.com/)
